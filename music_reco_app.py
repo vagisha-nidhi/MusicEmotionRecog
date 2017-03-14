@@ -9,12 +9,12 @@ from PyQt4 import QtGui, QtCore
 from PyQt4.phonon import Phonon
 
 from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
-from matplotlib.backends.backend_qt4agg import NavigationToolbar2QTAgg as NavigationToolbar
+from matplotlib.backends.backend_qt4agg import NavigationToolbar2QT as NavigationToolbar
 import matplotlib.pyplot as plt
 import random 
 import numpy
-from analysis.descriptors import * 
-from analysis.musicfeatures import Features, Num, normalize
+from descriptors import * 
+from musicfeatures import Features, Num, normalize
 
 CONFIG = {'model': 'model_allb'}# model_tri1
 params = {'n_fft':4096, 'hop_len':64, 'func': np.mean}
@@ -62,11 +62,11 @@ class MusicEmoReco(QtGui.QMainWindow):
     def __init__(self, parent=None):
         super(MusicEmoReco, self).__init__(parent)
         self.setWindowTitle('Music Emotion Recognition')
-        #music
+    
         self.mediaObject = Phonon.MediaObject(self)
         self.audioOutput = Phonon.AudioOutput(Phonon.MusicCategory, self)
         Phonon.createPath(self.mediaObject, self.audioOutput)
-        #self.mediaObject.stateChanged.connect(self.handleStateChanged)
+        
 
         central_widget1=self.initMenu()
         central_widget2=self.initPlot()
@@ -117,6 +117,8 @@ class MusicEmoReco(QtGui.QMainWindow):
         ind = np.arange(len(self.clf.classes_))
         width = 0.4 
         predictions*=100
+        print("Predictions : ")
+        print(predictions)
         ax.hold(False)
         r = ax.bar(ind, predictions, width, color='g')
         ax.set_ylabel('Probability [%]')
