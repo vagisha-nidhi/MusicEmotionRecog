@@ -1,9 +1,6 @@
 #!/usr/bin/python
 #-*- coding: utf-8 -*- 
 
-__version__ = '0.7'
-__author__ = 'Dominik Krzeminski'
-
 import sys
 from PyQt4 import QtGui, QtCore
 from PyQt4.phonon import Phonon
