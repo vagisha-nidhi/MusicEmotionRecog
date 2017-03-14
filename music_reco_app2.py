@@ -1,10 +1,4 @@
-import sys
-from PyQt4 import QtGui, QtCore
-from PyQt4.phonon import Phonon
-
-from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
-from matplotlib.backends.backend_qt4agg import NavigationToolbar2QT as NavigationToolbar
-import matplotlib.pyplot as plt
+import sys,os
 import random 
 import numpy
 from descriptors import * 
@@ -12,6 +6,7 @@ from musicfeatures import Features, Num, normalize
 
 CONFIG = {'model': 'model_allb'}# model_tri1
 params = {'n_fft':4096, 'hop_len':64, 'func': np.mean}
+emotions = ['anger', 'happy', 'relax', 'sad']
 
 def depickle(model_name):
     """
@@ -64,21 +59,11 @@ class MusicEmoReco():
         self.make_features()
     
     def plot_reco(self,predictions):
-        # "Plots results of classification"
-        # ax = self.figure.add_subplot(111)bb
-        # ind = np.arange(len(self.clf.classes_))
-        # width = 0.4 
         predictions*=100
         print("Predictions : ")
-        print(predictions)
-        # ax.hold(False)
-        # r = ax.bar(ind, predictions, width, color='g')
-        # ax.set_ylabel('Probability [%]')
-        # ax.set_xlabel('Emotion')
-        # ax.set_xticks(ind+width)
-        # ax.set_ylim([0,100])
-        # ax.set_xticklabels(self.clf.classes_)
-        # self.canvas.draw()
+        # print(predictions)
+        for i in range(len(emotions)) :
+            print(emotions[i], predictions[i])
 
     def load_model(self):
         "It loads a file with model saved as a dictionary in python cPickle"
@@ -101,13 +86,14 @@ class MusicEmoReco():
             self.plot_reco(self.clf.predict_proba(self.feats)[0])
         else:
             self.ups('Bad file format!')
+            print('Bad file format!')
 
 if __name__ == '__main__':
-    # app = QtGui.QApplication(sys.argv)
 
-    # main = MusicEmoReco()
-    # main.show()
-
-    # sys.exit(app.exec_())
-    path = "/home/vagisha/Projects/Django/musicemotionrecognition/song2.mp3"
+    song_name = sys.argv[1:][0]
+    folder_path = os.path.join(os.getcwd(),'audio_files')
+    #path contains the path of the audio file to be analyzed
+    # path = "/home/vagisha/Projects/Django/musicemotionrecognition/audio_files/song.mp3"
+    path = os.path.join(folder_path,song_name)
+    print(path)
     MusicEmoReco(path)
