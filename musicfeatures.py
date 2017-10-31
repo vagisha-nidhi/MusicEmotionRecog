@@ -1,6 +1,3 @@
-#!/usr/bin/python
-#-*- coding: utf-8 -*-
-
 import numpy as np
 import librosa
 import matplotlib.pyplot as plt 
@@ -139,7 +136,7 @@ def select_feat(X,y,percentile=20):
     return  selector.transform(X)
 
 if __name__ == '__main__':
-    mus = Features('music/GoHome.mp3','sad',piece_len=20)
+    mus = Features('music/pathtofile.mp3','sad',piece_len=20)
     params = {'fs':mus.sr, 'n_fft':4096, 'hop_len':64}
     mus.windowing(5,1)
     mus.add_winbased_features(rms)
